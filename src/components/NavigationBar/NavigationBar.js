@@ -4,8 +4,6 @@ import {
     Nav,
     Navbar,
     Dropdown,
-    ButtonGroup,
-    DropdownButton,
 } from 'react-bootstrap';
 import styled from 'styled-components';
 import * as moment from 'moment';
@@ -19,7 +17,6 @@ const Styles = styled.div`
         padding-bottom: 10px;
         font-size: 20px;
     }
-
     .navbar-nav {
         width: 100%;
         display: flex;
@@ -36,42 +33,40 @@ const NavigationBar = () => {
     return (
         <Styles>
             <Navbar expand="lg">
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">Currency</Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">Day</Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">Month</Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">Year</Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Nav>
-                </Navbar.Collapse>
+                <Nav>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">Currency</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">Day</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">Month</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">Year</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Nav>
             </Navbar>
         </Styles>
     );
