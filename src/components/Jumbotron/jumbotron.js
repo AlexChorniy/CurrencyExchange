@@ -7,13 +7,14 @@ const Styles = styled.div`
     .jumbotron {
         background: url(${dengiImage}) no-repeat;
         background-size: cover;
-        padding-top: 10px;
-        padding-bottom: 5px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin: 0;
         position: relative;
         z-index: -2;
         &__overlay {
             background-color: #000
-            opacity: 0.6;
+            opacity: 0.3;
             position: absolute;
             top: 0;
             left: 0;
@@ -22,13 +23,14 @@ const Styles = styled.div`
             z-index: -1;
         }
         &__title {
-            margin-top: 0;
+            margin: 0;
             margin-bottom: 0;
             color: #E0FFFF;
             text-align: center;
             font-size: 30px;
         }
         &__text {
+            margin: 0;
             text-align: center;
             font-size: 30px;
             color: #E0FFFF;

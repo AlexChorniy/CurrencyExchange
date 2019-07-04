@@ -1,6 +1,14 @@
-import React from 'react';
-import { Nav, Navbar, NavbarBrand } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    Nav,
+    Navbar,
+    Dropdown,
+    ButtonGroup,
+    DropdownButton,
+} from 'react-bootstrap';
 import styled from 'styled-components';
+import * as moment from 'moment';
 
 const Styles = styled.div`
     .navbar {
@@ -22,18 +30,51 @@ const Styles = styled.div`
     }
 `;
 
-const NavigationBar = () => (
-    <Styles>
-        <Navbar expand="lg">
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav>
-                    <Nav.Item><Nav.Link href="/">Home</Nav.Link></Nav.Item>
-                    <Nav.Item><Nav.Link href="/about">About</Nav.Link></Nav.Item>
-                    <Nav.Item><Nav.Link href="/contact">contact</Nav.Link></Nav.Item>
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
-    </Styles>
-);
+const NavigationBar = () => {
+    const dispatch = useDispatch();
+    const daysInMonth = moment(`${moment().format('YYYY-MM')}`, 'YYYY-MM').daysInMonth();
+    return (
+        <Styles>
+            <Navbar expand="lg">
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">Currency</Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">Day</Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">Month</Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">Year</Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+        </Styles>
+    );
+};
 
 export default NavigationBar;
