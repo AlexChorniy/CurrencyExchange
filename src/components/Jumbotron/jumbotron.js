@@ -1,7 +1,9 @@
 import React from 'react';
 import { Jumbotron as Jumbo, Container } from 'react-bootstrap';
 import styled from 'styled-components';
+import * as moment from 'moment';
 import dengiImage from '../../assets/dengi_1280x960.jpg';
+
 
 const Styles = styled.div`
     .jumbotron {
@@ -45,6 +47,7 @@ const Jumbotron = () => (
             <Container>
                 <h2 className="jumbotron__title">Welcome</h2>
                 <p className="jumbotron__text">to our currency exchange</p>
+                <p className="jumbotron__text">{`Today is ${moment().format('LL')}`}</p>
             </Container>
         </Jumbo>
     </Styles>

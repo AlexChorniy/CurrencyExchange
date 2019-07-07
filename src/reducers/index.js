@@ -1,7 +1,21 @@
 import { combineReducers } from 'redux';
 
-import exchange from './exchange';
+import currency from './currency';
+import yearsArr from './years';
+import monthArr from './months';
+import daysArr from './days';
+import yearsToggleInf from './yearsToggle';
+import monthsToggleInf from './monthsToggle';
+import daysToggleInf from './daysToToggle';
+import currenciesToggleInf from './currenciesToggle';
 
 export default combineReducers({
-	exchange,
+	currency,
+	yearsArr,
+	monthArr,
+	daysArr,
+	yearsToggleInf,
+	monthsToggleInf,
+	daysToggleInf,
+	currenciesToggleInf,
 });
