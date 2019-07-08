@@ -69,15 +69,15 @@ const NavigationBar = () => {
     const [getMonth, setMonth] = useState(month[0]);
     const [getYear, setYear] = useState(moment().format('YYYY'));
     const yearsAmount = 15;
-    const fullDate = '20190603';
+    const fullDate = moment().format('YYYYMMDD');
     useEffect(() => {
         getExchange(fullDate)
         .then((responce) => {
             dispatch(currencyUpdateFromAPI(responce.data));
-        })
-        .catch((reject) => {
-            console.log('reject', reject);
         });
+        // .catch((reject) => {
+        //     console.log('reject', reject);
+        // });
     }, [dispatch, fullDate]);
     useEffect(() => {
         dispatch(yearsUpdate(yearsAmount));
@@ -89,8 +89,8 @@ const NavigationBar = () => {
         const daysInMonth = moment(`${moment().format('YYYY-MM')}`, 'YYYY-MM').daysInMonth();
         dispatch(daysUpdate(daysInMonth));
     }, [dispatch]);
-    const showNews = () => {
-        console.log('showNews');
+    const showCurrencyInf = () => {
+        console.log('showCurrencyInf');
     };
     const addToToggle = (value, branch) => {
         switch (branch) {
@@ -137,7 +137,7 @@ const NavigationBar = () => {
                             {
                                 currencyInf.map(item => (
                                     <Dropdown.Item key={item.r030}>
-                                        <ListItem clickedLiItem={() => addToToggle(item.txt, 'currency')} href={`#/${item.r030}`} key={item.r030} {...item} name="currency" />
+                                        <ListItem clickedLiItem={() => addToToggle(item.txt, 'currency')} href={`#/card/${item.r030}`} key={item.r030} {...item} name="currency" />
                                     </Dropdown.Item>
                                 ))
                             }
@@ -149,7 +149,7 @@ const NavigationBar = () => {
                             {
                                 daysInf.map(item => (
                                     <Dropdown.Item key={item.id}>
-                                        <ListItem clickedLiItem={() => addToToggle(item.txt, 'day')} href={`#/${item.id}`} key={item.id} {...item} name="day" />
+                                        <ListItem clickedLiItem={() => addToToggle(item.txt, 'day')} href={`#/card/${item.id}`} key={item.id} {...item} name="day" />
                                     </Dropdown.Item>
                                 ))
                             }
@@ -161,7 +161,7 @@ const NavigationBar = () => {
                             {
                                 monthsInf.map(item => (
                                     <Dropdown.Item key={item.id}>
-                                        <ListItem clickedLiItem={() => addToToggle(item.txt, 'month')} href={`#/${item.id}`} key={item.id} {...item} name="month" />
+                                        <ListItem clickedLiItem={() => addToToggle(item.txt, 'month')} href={`#/card/${item.id}`} key={item.id} {...item} name="month" />
                                     </Dropdown.Item>
                                 ))
                             }
@@ -173,13 +173,13 @@ const NavigationBar = () => {
                             {
                                 yearsInf.map(item => (
                                     <Dropdown.Item key={item.id}>
-                                        <ListItem clickedLiItem={() => addToToggle(item.txt, 'year')} href={`#/${item.id}`} key={item.id} {...item} name="year" />
+                                        <ListItem clickedLiItem={() => addToToggle(item.txt, 'year')} href={`#/card/${item.id}`} key={item.id} {...item} name="year" />
                                     </Dropdown.Item>
                                 ))
                             }
                         </Dropdown.Menu>
                     </Dropdown>
-                    <Button onClick={() => showNews()} type="submit" variant="outline-light">Submit</Button>
+                    <Button onClick={() => showCurrencyInf()} type="submit" variant="outline-light">Submit</Button>
                 </Nav>
             </Navbar>
         </Styles>
