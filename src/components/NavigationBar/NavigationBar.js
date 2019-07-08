@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     Nav,
@@ -26,8 +26,6 @@ const Styles = styled.div`
         background-color: #272e34;
         display: flex;
         flex-flow: column;
-        padding-top: 10px;
-        padding-bottom: 10px;
         font-size: 20px;
     }
     .navbar-nav {
@@ -37,6 +35,7 @@ const Styles = styled.div`
     }
     .nav-link {
         color: #E0FFFF;
+        width: 27px;
     }
     .dropdown-menu {
         height: 300px;
@@ -46,13 +45,12 @@ const Styles = styled.div`
         display: flex;
         align-items: center;
     }
-    .month-toggle {
-        width: 77px;
-    }
     .currency-toggle {
         width: 272px;
     }
-
+    .month-dropdown {
+        width: 116px;
+    }
 `;
 
 const NavigationBar = () => {
@@ -65,6 +63,11 @@ const NavigationBar = () => {
     const monthsToggleInf = useSelector(store => store.monthsToggleInf);
     const daysToggleInf = useSelector(store => store.daysToggleInf);
     const currenciesToggleInf = useSelector(store => store.currenciesToggleInf);
+    const month = moment.months().filter(
+        (item, index) => (index === moment().months() ? item : null),
+    );
+    const [getMonth, setMonth] = useState(month[0]);
+    const [getYear, setYear] = useState(moment().format('YYYY'));
     const yearsAmount = 15;
     const fullDate = '20190603';
     useEffect(() => {
@@ -100,14 +103,34 @@ const NavigationBar = () => {
             case 'currency':
                 return dispatch(currenciesToggleUpdate(value));
             default:
-            return branch;
+            return dispatch(daysToggleUpdate(value));
+        }
+    };
+
+    const changeHandler = () => {
+        if (
+            getMonth !== monthsToggleInf
+            || getYear !== yearsToggleInf
+        ) {
+            setMonth(monthsToggleInf);
+            setYear(yearsToggleInf);
+            const monthInNumber = moment.months().map((elem, index) => (
+                { id: `${index < 9 ? '0' : ''}${index + 1}`, txt: elem }
+            )).filter(item => (
+                item.txt === monthsToggleInf ? item : null
+            ))[0].id;
+            const daysInMonth = moment(`${yearsToggleInf}-${monthInNumber}`, 'YYYY-MM').daysInMonth();
+            dispatch(daysUpdate(daysInMonth));
+            if (daysToggleInf > daysInMonth) {
+                dispatch(daysToggleUpdate(daysInMonth));
+            }
         }
     };
 
     return (
         <Styles>
             <Navbar expand="lg">
-                <Nav>
+                <Nav onChange={changeHandler()}>
                     <Dropdown>
                         <Dropdown.Toggle variant="outline-light" id="dropdown-basic"><div className="currency-toggle">{currenciesToggleInf}</div></Dropdown.Toggle>
                         <Dropdown.Menu>
@@ -133,7 +156,7 @@ const NavigationBar = () => {
                         </Dropdown.Menu>
                     </Dropdown>
                     <Dropdown>
-                        <Dropdown.Toggle variant="outline-light" id="dropdown-basic"><div className="month-toggle">{monthsToggleInf}</div></Dropdown.Toggle>
+                        <Dropdown.Toggle variant="outline-light" id="dropdown-basic"><div className="month-dropdown">{monthsToggleInf}</div></Dropdown.Toggle>
                         <Dropdown.Menu>
                             {
                                 monthsInf.map(item => (

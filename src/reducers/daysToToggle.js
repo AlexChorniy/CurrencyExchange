@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-const dayToday = moment().format('MM');
+const dayToday = moment().format('DD');
 
 const daysToggleInf = (store = dayToday, { type, payload }) => {
 	switch (type) {
