@@ -105,20 +105,35 @@ const NavigationBar = () => {
         dispatch(daysUpdate(daysInMonth));
     }, [dispatch]);
     const showCurrencyInf = () => {
-        if (currenciesToggleInf === 'Choose currency') {
+        const infFromLS = workWithLS.getData();
+        const isCurrencyInLS = infFromLS.filter(
+            item => (item.txt === currenciesToggleInf ? item : null),
+        );
+        const exchangeDateFromLS = infFromLS[0].exchangedate.split('.').reverse().join('');
+        const dateFromElements = `${yearsToggleInf}${monthInNumber}${daysToggleInf}`;
+        if (
+            currenciesToggleInf === 'Choose currency'
+        ) {
             dispatch(chooseCurrency());
-        } else if (currenciesToggleInf) {
-            const infFromLS = workWithLS.getData();
-            const isCurrencyInLS = infFromLS.filter(
-                item => (item.txt === currenciesToggleInf ? item : null),
-            );
-            if (isCurrencyInLS) {
-                const exchangeDateFromLS = infFromLS[0].exchangedate.split('.').reverse().join('');
-                const dateFromElements = `${yearsToggleInf}${monthInNumber}${daysToggleInf}`;
-                console.log(dateFromElements === exchangeDateFromLS);
-            } else {
-                dispatch(setNoCurrency());
-            }
+        } else if (
+            currenciesToggleInf && isCurrencyInLS && dateFromElements === exchangeDateFromLS
+        ) {
+            dispatch(setCurrency(isCurrencyInLS));
+        } else if (
+            currenciesToggleInf && !isCurrencyInLS && dateFromElements === exchangeDateFromLS
+        ) {
+            dispatch(setNoCurrency());
+        } else if (
+            currenciesToggleInf && dateFromElements !== exchangeDateFromLS
+        ) {
+            getExchange(dateFromElements)
+            .then((responce) => {
+                dispatch(currencyUpdateFromAPI(responce.data));
+                // workWithLS.setData(JSON.stringify(responce.data));
+            })
+            .catch((reject) => {
+                console.log('reject', reject);
+            });
         }
     };
     const addToToggle = (value, branch) => {
