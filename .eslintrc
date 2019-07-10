@@ -17,6 +17,7 @@
     },
     "globals": {
         "window": true,
-        "__DEV__": true
+        "__DEV__": true,
+        "localStorage": true,
     }
 }

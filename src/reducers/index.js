@@ -8,14 +8,16 @@ import yearsToggleInf from './yearsToggle';
 import monthsToggleInf from './monthsToggle';
 import daysToggleInf from './daysToToggle';
 import currenciesToggleInf from './currenciesToggle';
+import cardItem from './cardItem';
 
 export default combineReducers({
+	daysArr,
 	currency,
 	yearsArr,
 	monthArr,
-	daysArr,
+	cardItem,
+	daysToggleInf,
 	yearsToggleInf,
 	monthsToggleInf,
-	daysToggleInf,
 	currenciesToggleInf,
 });

@@ -44,7 +44,7 @@ const App = () => (
                 <Layout>
                     <Router>
                         <Switch>
-                            <Route path="/card" exact component={Card} />
+                            <Route path="/" exact component={Card} />
                         </Switch>
                     </Router>
                 </Layout>

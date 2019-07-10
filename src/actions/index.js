@@ -11,3 +11,6 @@ export const yearsToggleUpdate = number => ({ type: 'YEARS_TOGGLE_UPDATE', paylo
 export const monthsToggleUpdate = string => ({ type: 'MONTHS_TOGGLE_UPDATE', payload: string });
 export const daysToggleUpdate = string => ({ type: 'DAYS_TOGGLE_UPDATE', payload: string });
 export const currenciesToggleUpdate = string => ({ type: 'CURRENCIES_TOGGLE_UPDATE', payload: string });
+export const chooseCurrency = () => ({ type: 'CHOOSE_CURRENCY' });
+export const setCurrency = arr => ({ type: 'SET_CURRENCY', payload: arr });
+export const setNoCurrency = () => ({ type: 'SET_NO_CURRENCY' });

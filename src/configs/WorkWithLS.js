@@ -1,5 +1,7 @@
+const key = 'Currency';
+
 const workWithLS = {
-    getData(key) {
+    getData() {
         try {
             const serializedState = localStorage.getItem(key);
             if (serializedState === null) {
@@ -10,7 +12,7 @@ const workWithLS = {
             return undefined;
         }
     },
-    setData(key, value) {
+    setData(value) {
         try {
             localStorage.setItem(key, value);
         } catch (error) {
