@@ -59,6 +59,7 @@ const Styles = styled.div`
 
 const NavigationBar = () => {
     const dispatch = useDispatch();
+    // work with store
     const currencyInf = useSelector(store => store.currency);
     const yearsInf = useSelector(store => store.yearsArr);
     const monthsInf = useSelector(store => store.monthArr);
@@ -67,11 +68,13 @@ const NavigationBar = () => {
     const monthsToggleInf = useSelector(store => store.monthsToggleInf);
     const daysToggleInf = useSelector(store => store.daysToggleInf);
     const currenciesToggleInf = useSelector(store => store.currenciesToggleInf);
+    //  work with state
     const month = moment.months().filter(
         (item, index) => (index === moment().months() ? item : null),
     );
     const [getMonth, setMonth] = useState(month[0]);
     const [getYear, setYear] = useState(moment().format('YYYY'));
+    // work with arguments
     const yearsAmount = 15;
     const todayDate = moment().format('YYYYMMDD');
     const monthInNumber = moment.months().map((elem, index) => (
@@ -104,10 +107,11 @@ const NavigationBar = () => {
         const daysInMonth = moment(`${moment().format('YYYY-MM')}`, 'YYYY-MM').daysInMonth();
         dispatch(daysUpdate(daysInMonth));
     }, [dispatch]);
-    const showCurrencyInf = () => {
+    const showCurrencyInf = (e) => {
+        e.preventDefault();
         const infFromLS = workWithLS.getData();
         const isCurrencyInLS = infFromLS.filter(
-            item => (item.txt === currenciesToggleInf ? item : null),
+        item => (item.txt === currenciesToggleInf ? item : null),
         );
         const exchangeDateFromLS = infFromLS[0].exchangedate.split('.').reverse().join('');
         const dateFromElements = `${yearsToggleInf}${monthInNumber}${daysToggleInf}`;
@@ -120,20 +124,9 @@ const NavigationBar = () => {
         ) {
             dispatch(setCurrency(isCurrencyInLS));
         } else if (
-            currenciesToggleInf && !isCurrencyInLS && dateFromElements === exchangeDateFromLS
+            !isCurrencyInLS && dateFromElements === exchangeDateFromLS
         ) {
             dispatch(setNoCurrency());
-        } else if (
-            currenciesToggleInf && dateFromElements !== exchangeDateFromLS
-        ) {
-            getExchange(dateFromElements)
-            .then((responce) => {
-                dispatch(currencyUpdateFromAPI(responce.data));
-                // workWithLS.setData(JSON.stringify(responce.data));
-            })
-            .catch((reject) => {
-                console.log('reject', reject);
-            });
         }
     };
     const addToToggle = (value, branch) => {
@@ -152,6 +145,12 @@ const NavigationBar = () => {
     };
 
     const changeHandler = () => {
+        const infFromLS = workWithLS.getData();
+        const isCurrencyInLS = infFromLS.filter(
+        item => (item.txt === currenciesToggleInf ? item : null),
+        );
+        const exchangeDateFromLS = infFromLS[0].exchangedate.split('.').reverse().join('');
+        const dateFromElements = `${yearsToggleInf}${monthInNumber}${daysToggleInf}`;
         if (
             getMonth !== monthsToggleInf
             || getYear !== yearsToggleInf
@@ -163,6 +162,19 @@ const NavigationBar = () => {
             if (daysToggleInf > daysInMonth) {
                 dispatch(daysToggleUpdate(daysInMonth));
             }
+        } else if (
+            dateFromElements !== exchangeDateFromLS
+        ) {
+            getExchange(dateFromElements)
+            .then((responce) => {
+                console.log('responce.data', responce.data);
+                dispatch(currencyUpdateFromAPI(responce.data));
+                dispatch(setCurrency(isCurrencyInLS));
+                workWithLS.setData(JSON.stringify(responce.data));
+            })
+            .catch((reject) => {
+                console.log('reject', reject);
+            });
         }
     };
 
@@ -218,7 +230,7 @@ const NavigationBar = () => {
                             }
                         </Dropdown.Menu>
                     </Dropdown>
-                    <Button onClick={() => showCurrencyInf()} type="submit" variant="outline-light">Submit</Button>
+                    <Button onClick={showCurrencyInf} type="submit" variant="outline-light">Submit</Button>
                 </Nav>
             </Navbar>
         </Styles>
