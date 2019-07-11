@@ -9,6 +9,7 @@ import Layout from '../Layout';
 import NavigationBar from '../NavigationBar';
 import Jumbotron from '../Jumbotron';
 import dengiImage from '../../assets/dengi_1280x960.jpg';
+import PageNotFound from '../PageNotFound';
 import Card from '../Card';
 
 const Styles = styled.div`
@@ -45,6 +46,7 @@ const App = () => (
                     <Router>
                         <Switch>
                             <Route path="/" exact component={Card} />
+                            <Route path="*" component={PageNotFound} />
                         </Switch>
                     </Router>
                 </Layout>

@@ -8,9 +8,11 @@ import {
 } from 'react-bootstrap';
 import styled from 'styled-components';
 import * as moment from 'moment';
+import { navigate } from 'hookrouter';
 import getExchange from '../../api';
 import ListItem from '../ListItem';
 import workWithLS from '../../configs/WorkWithLS';
+
 import {
     currencyUpdateFromAPI,
     yearsUpdate,
@@ -87,11 +89,13 @@ const NavigationBar = () => {
         if (!infFromLS) {
             getExchange(todayDate)
                 .then((responce) => {
+                    navigate('/', true);
                     dispatch(currencyUpdateFromAPI(responce.data));
                     workWithLS.setData(JSON.stringify(responce.data));
                 })
                 .catch((reject) => {
-                    console.log('reject', reject);
+                    navigate('*', true);
+                    console.dir('reject', reject);
                 });
         } else if (infFromLS) {
             dispatch(currencyUpdateFromAPI(infFromLS));
@@ -110,23 +114,25 @@ const NavigationBar = () => {
     const showCurrencyInf = (e) => {
         e.preventDefault();
         const infFromLS = workWithLS.getData();
-        const isCurrencyInLS = infFromLS.filter(
-        item => (item.txt === currenciesToggleInf ? item : null),
-        );
-        const exchangeDateFromLS = infFromLS[0].exchangedate.split('.').reverse().join('');
-        const dateFromElements = `${yearsToggleInf}${monthInNumber}${daysToggleInf}`;
-        if (
-            currenciesToggleInf === 'Choose currency'
-        ) {
-            dispatch(chooseCurrency());
-        } else if (
-            currenciesToggleInf && isCurrencyInLS && dateFromElements === exchangeDateFromLS
-        ) {
-            dispatch(setCurrency(isCurrencyInLS));
-        } else if (
-            !isCurrencyInLS && dateFromElements === exchangeDateFromLS
-        ) {
-            dispatch(setNoCurrency());
+        if (infFromLS) {
+            const isCurrencyInLS = infFromLS.filter(
+            item => (item.txt === currenciesToggleInf ? item : null),
+            );
+            const exchangeDateFromLS = infFromLS[0].exchangedate.split('.').reverse().join('');
+            const dateFromElements = `${yearsToggleInf}${monthInNumber}${daysToggleInf}`;
+            if (
+                currenciesToggleInf === 'Choose currency'
+            ) {
+                dispatch(chooseCurrency());
+            } else if (
+                currenciesToggleInf && isCurrencyInLS && dateFromElements === exchangeDateFromLS
+            ) {
+                dispatch(setCurrency(isCurrencyInLS));
+            } else if (
+                !isCurrencyInLS && dateFromElements === exchangeDateFromLS
+            ) {
+                dispatch(setNoCurrency());
+            }
         }
     };
     const addToToggle = (value, branch) => {
@@ -146,35 +152,36 @@ const NavigationBar = () => {
 
     const changeHandler = () => {
         const infFromLS = workWithLS.getData();
-        const isCurrencyInLS = infFromLS.filter(
-        item => (item.txt === currenciesToggleInf ? item : null),
-        );
-        const exchangeDateFromLS = infFromLS[0].exchangedate.split('.').reverse().join('');
-        const dateFromElements = `${yearsToggleInf}${monthInNumber}${daysToggleInf}`;
-        if (
-            getMonth !== monthsToggleInf
-            || getYear !== yearsToggleInf
-        ) {
-            setMonth(monthsToggleInf);
-            setYear(yearsToggleInf);
-            const daysInMonth = moment(`${yearsToggleInf}-${monthInNumber}`, 'YYYY-MM').daysInMonth();
-            dispatch(daysUpdate(daysInMonth));
-            if (daysToggleInf > daysInMonth) {
-                dispatch(daysToggleUpdate(daysInMonth));
+        if (infFromLS) {
+            const isCurrencyInLS = infFromLS.filter(
+            item => (item.txt === currenciesToggleInf ? item : null),
+            );
+            const exchangeDateFromLS = infFromLS[0].exchangedate.split('.').reverse().join('');
+            const dateFromElements = `${yearsToggleInf}${monthInNumber}${daysToggleInf}`;
+            if (
+                getMonth !== monthsToggleInf
+                || getYear !== yearsToggleInf
+            ) {
+                setMonth(monthsToggleInf);
+                setYear(yearsToggleInf);
+                const daysInMonth = moment(`${yearsToggleInf}-${monthInNumber}`, 'YYYY-MM').daysInMonth();
+                dispatch(daysUpdate(daysInMonth));
+                if (daysToggleInf > daysInMonth) {
+                    dispatch(daysToggleUpdate(daysInMonth));
+                }
+            } else if (
+                dateFromElements !== exchangeDateFromLS
+            ) {
+                getExchange(dateFromElements)
+                .then((responce) => {
+                    dispatch(currencyUpdateFromAPI(responce.data));
+                    dispatch(setCurrency(isCurrencyInLS));
+                    workWithLS.setData(JSON.stringify(responce.data));
+                })
+                .catch((reject) => {
+                    console.log('reject', reject);
+                });
             }
-        } else if (
-            dateFromElements !== exchangeDateFromLS
-        ) {
-            getExchange(dateFromElements)
-            .then((responce) => {
-                console.log('responce.data', responce.data);
-                dispatch(currencyUpdateFromAPI(responce.data));
-                dispatch(setCurrency(isCurrencyInLS));
-                workWithLS.setData(JSON.stringify(responce.data));
-            })
-            .catch((reject) => {
-                console.log('reject', reject);
-            });
         }
     };
 
